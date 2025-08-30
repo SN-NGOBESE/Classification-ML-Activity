@@ -16,42 +16,4 @@ def safe_read_csv(name):
         st.stop()
     return pd.read_csv(p)
 
-df = safe_read_csv("df.csv")
-
-# If numeric_df was exported, try to load it
-numeric_df = None
-try:
-    numeric_df = safe_read_csv("numeric_df.csv")
-except Exception:
-    st.warning("`numeric_df.csv` not found – continuing with df only.")
-
-# ---------- Tabs ----------
-tab1, tab2 = st.tabs(["📈 Data & Insights", "📊 Correlations"])
-
-with tab1:
-    st.subheader("Quick Metrics")
-    col1, col2 = st.columns(2)
-    col1.metric("Rows", f"{len(df)}")
-    col2.metric("Columns", f"{df.shape[1]}")
-
-    st.markdown("### Dataset Preview")
-    st.dataframe(df.head())
-
-    st.markdown("### Column Breakdown")
-    st.write(df.describe(include="all"))
-
-    if "age" in df.columns:
-        st.markdown("### Age Distribution")
-        fig, ax = plt.subplots()
-        sns.histplot(df["age"], bins=20, kde=True, ax=ax)
-        st.pyplot(fig)
-
-with tab2:
-    st.subheader("Correlation Heatmap")
-
-    if numeric_df is not None:
-        fig, ax = plt.subplots()
-        sns.heatmap(numeric_df.corr(), annot=True, cmap="coolwarm", ax=ax)
-        st.pyplot(fig)
-    else:
-        st.info("No numeric_df.csv provided — skipping correlation heatmap.")
+df = safe_read_csv("df.csv")   # ✅ only load df.csv, since that's what you exported
