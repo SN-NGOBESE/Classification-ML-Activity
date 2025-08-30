@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
+pip install matplotlib seaborn
 
 st.set_page_config(page_title="Assessment 4 Dashboard", layout="wide")
 st.title("📊 Dataset Exploration Dashboard")
